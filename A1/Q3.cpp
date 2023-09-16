@@ -99,15 +99,11 @@ void reverseList(SortedSet<T> &ll)
 
     while (current != NULL)
     {
-        // Store next
         next = current->next;
-        // Reverse current node's pointer
         current->next = prev;
-        // Move pointers one position ahead.
         prev = current;
         current = next;
     }
-    // Update the head of the SortedSet
     ll.head = prev;
 }
 
@@ -123,6 +119,7 @@ int main()
     cout << "First Set:" << endl;
     ll.print();
 
+    cout << "-----------------------" << endl;
     cout << "After Reversing:" << endl;
     reverseList(ll);
     ll.print();

@@ -150,6 +150,8 @@ public:
             }
             else
             {
+                // if(firstPtr->data == first->)
+
                 // if more nodes in first list
                 if (firstNextPtr->next != NULL)
                 {
@@ -191,19 +193,6 @@ int main()
     cout << "First Set After Deletion:" << endl;
     ll.print();
     cout << "-------------------------" << endl;
-
-    SortedSet<int> ll2;
-    ll2.insertElement(3);
-    ll2.insertElement(8);
-    ll2.insertElement(5);
-    ll2.insertElement(9);
-    cout << "Second Set:" << endl;
-    ll2.print();
-    cout << "-------------------------" << endl;
-
-    ll.unionSortedSets(ll2);
-    cout << "Union:" << endl;
-    ll.print();
 
     return 0;
 }
