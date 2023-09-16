@@ -168,44 +168,12 @@ public:
                 }
             }
         }
-
-        // while (secondPtr != NULL)
-        // {
-        //     Node<T> *temp = new Node(secondPtr->data);
-        //     firstPtr->next = temp;
-        //     secondPtr = secondPtr->next;
-        //     firstPtr = firstPtr->next;
-        // }
-
-        // while (firstPtr != NULL && secondPtr != NULL)
-        // {
-        //     if (firstPtr->data < secondPtr->data)
-        //     {
-        //         Node<T> *temp = new Node(firstPtr->data);
-        //         temp->next = firstPtr->next;
-        //         firstPtr->next = temp;
-        //         firstPtr = firstPtr->next->next;
-        //     }
-        //     else
-        //     {
-        //         Node<T> *temp = new Node(secondPtr->data);
-        //         temp->next = firstPtr->next;
-        //         firstPtr->next = temp;
-        //         secondPtr = secondPtr->next;
-        //     }
-        // }
-
-        // while (secondPtr != NULL)
-        // {
-        //     Node<T> *temp = new Node(secondPtr->data);
-        //     firstPtr->next = temp;
-        //     secondPtr = secondPtr->next;
-        //     firstPtr = firstPtr->next;
-        // }
     }
 
     ~SortedSet()
     {
+        head = nullptr;
+        tail = nullptr;
     }
 };
 
@@ -217,17 +185,26 @@ int main()
     ll.insertElement(6);
     ll.insertElement(1);
     ll.insertElement(3);
+    ll.insertElement(10);
+    cout << "First Set:" << endl;
     ll.print();
+    cout << "-------------------------" << endl;
+    ll.deleteElement(2);
+    cout << "First Set After Deletion:" << endl;
+    ll.print();
+    cout << "-------------------------" << endl;
 
     SortedSet<int> ll2;
     ll2.insertElement(3);
     ll2.insertElement(8);
     ll2.insertElement(5);
     ll2.insertElement(9);
-
+    cout << "Second Set:" << endl;
     ll2.print();
+    cout << "-------------------------" << endl;
 
     ll.unionSortedSets(ll2);
+    cout << "Union:" << endl;
     ll.print();
 
     return 0;
