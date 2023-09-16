@@ -65,24 +65,31 @@ public:
 
     void deleteElement(int const index)
     {
-        int count = 1;
-        Node<T> *temp = head;
-
-        while (temp->next != NULL && count < index)
+        if (index < 0)
         {
-            temp = temp->next;
-            count++;
+            cout << "Error! Deletion Not Possible, Index Out of Bound: " << index << endl;
+            return;
         }
 
-        if (index == 0 && temp->next != NULL)
+        Node<T> *temp = head;
+        if (index == 0)
         {
             Node<T> *toDelete = temp;
             head = head->next;
             delete toDelete;
             return;
         }
-        else if (count == index)
+
+        int count = 1;
+        while (temp->next != NULL && count < index)
         {
+            temp = temp->next;
+            count++;
+        }
+
+        if (count == index && temp->next != NULL)
+        {
+            // due to setting the tail at end we have this condition
             tail = temp;
             Node<T> *toDelete = temp->next;
             temp->next = temp->next->next;
@@ -115,28 +122,86 @@ public:
     {
         Node<T> *firstPtr = head;
         Node<T> *secondPtr = otherSet.head;
+        Node<T> *firstNextPtr = firstPtr->next;
+        Node<T> *secondNextPtr = secondPtr->next;
 
         while (firstPtr != NULL && secondPtr != NULL)
         {
-            if (firstPtr->data < secondPtr->data)
+            if (firstPtr->data <= secondPtr->data && secondPtr->data <= firstNextPtr->data)
             {
-                Node<T> *temp = new Node(secondPtr->data);
-                temp->next = firstPtr->next;
-                firstPtr->next = temp;
-                secondPtr = secondPtr->next;
-                firstPtr = firstPtr->next;
+                // check for excluding duplicates
+                if (firstNextPtr->data == secondPtr->data)
+                {
+                    firstNextPtr = firstNextPtr->next;
+                    firstPtr = firstPtr->next;
+                    secondPtr = secondNextPtr;
+                }
+                else
+                {
+                    secondNextPtr = secondPtr->next;
+                    firstPtr->next = secondPtr;
+                    secondPtr->next = firstNextPtr;
+
+                    // now let curr1 and curr2 to point
+                    // to their immediate next pointers
+                    firstPtr = secondPtr;
+                    secondPtr = secondNextPtr;
+                }
             }
+            else
+            {
+                // if(firstPtr->data == first->)
 
-            firstPtr = firstPtr->next;
+                // if more nodes in first list
+                if (firstNextPtr->next != NULL)
+                {
+                    firstNextPtr = firstNextPtr->next;
+                    firstPtr = firstPtr->next;
+                }
+
+                // else point the last node of first list
+                // to the remaining nodes of second list
+                else
+                {
+                    firstNextPtr->next = secondPtr;
+                    return;
+                }
+            }
         }
 
-        while (secondPtr != NULL)
-        {
-            Node<T> *temp = new Node(secondPtr->data);
-            firstPtr->next = temp;
-            secondPtr = secondPtr->next;
-            firstPtr = firstPtr->next;
-        }
+        // while (secondPtr != NULL)
+        // {
+        //     Node<T> *temp = new Node(secondPtr->data);
+        //     firstPtr->next = temp;
+        //     secondPtr = secondPtr->next;
+        //     firstPtr = firstPtr->next;
+        // }
+
+        // while (firstPtr != NULL && secondPtr != NULL)
+        // {
+        //     if (firstPtr->data < secondPtr->data)
+        //     {
+        //         Node<T> *temp = new Node(firstPtr->data);
+        //         temp->next = firstPtr->next;
+        //         firstPtr->next = temp;
+        //         firstPtr = firstPtr->next->next;
+        //     }
+        //     else
+        //     {
+        //         Node<T> *temp = new Node(secondPtr->data);
+        //         temp->next = firstPtr->next;
+        //         firstPtr->next = temp;
+        //         secondPtr = secondPtr->next;
+        //     }
+        // }
+
+        // while (secondPtr != NULL)
+        // {
+        //     Node<T> *temp = new Node(secondPtr->data);
+        //     firstPtr->next = temp;
+        //     secondPtr = secondPtr->next;
+        //     firstPtr = firstPtr->next;
+        // }
     }
 
     ~SortedSet()
@@ -150,21 +215,20 @@ int main()
     ll.insertElement(4);
     ll.insertElement(2);
     ll.insertElement(6);
-
+    ll.insertElement(1);
+    ll.insertElement(3);
     ll.print();
-    ll.deleteElement(2);
+
+    SortedSet<int> ll2;
+    ll2.insertElement(3);
+    ll2.insertElement(8);
+    ll2.insertElement(5);
+    ll2.insertElement(9);
+
+    ll2.print();
+
+    ll.unionSortedSets(ll2);
     ll.print();
-
-    // SortedSet<int> ll2;
-    // ll2.insertElement(3);
-    // ll2.insertElement(8);
-    // ll2.insertElement(5);
-    // ll2.insertElement(9);
-
-    // ll2.print();
-
-    // ll.unionSortedSets(ll2);
-    // ll.print();
 
     return 0;
 }
