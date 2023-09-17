@@ -63,49 +63,6 @@ public:
         }
     }
 
-    void deleteElement(int const index)
-    {
-        if (index < 0)
-        {
-            cout << "Error! Deletion Not Possible, Index Out of Bound: " << index << endl;
-            return;
-        }
-
-        Node<T> *temp = head;
-        if (index == 0)
-        {
-            Node<T> *toDelete = temp;
-            head = head->next;
-            delete toDelete;
-            return;
-        }
-
-        int count = 1;
-        while (temp->next != NULL && count < index)
-        {
-            temp = temp->next;
-            count++;
-        }
-
-        if (count == index && temp->next != NULL)
-        {
-            // due to setting the tail at end we have this condition
-            tail = temp;
-            Node<T> *toDelete = temp->next;
-            temp->next = temp->next->next;
-            delete toDelete;
-            return;
-        }
-        else if (temp->next != NULL)
-        {
-            Node<T> *toDelete = temp->next;
-            temp->next = temp->next->next;
-            delete toDelete;
-            return;
-        }
-        cout << "Error! Deletion Not Possible, Index Out of Bound: " << index << endl;
-    }
-
     void print() const
     {
         Node<T> *temp = head;
@@ -118,60 +75,29 @@ public:
         cout << "NULL" << endl;
     }
 
-    void unionSortedSets(SortedSet<T> const &otherSet)
+    void rotate(int k)
     {
-        Node<T> *firstPtr = head;
-        Node<T> *secondPtr = otherSet.head;
-        Node<T> *firstNextPtr = firstPtr->next;
-        Node<T> *secondNextPtr = secondPtr->next;
-
-        while (firstPtr != NULL && secondPtr != NULL)
+        while (k)
         {
-            if (firstPtr->data <= secondPtr->data && secondPtr->data <= firstNextPtr->data)
-            {
-                // check for excluding duplicates
-                if (firstNextPtr->data == secondPtr->data)
-                {
-                    firstNextPtr = firstNextPtr->next;
-                    firstPtr = firstPtr->next;
-                    secondPtr = secondNextPtr;
-                }
-                else
-                {
-                    secondNextPtr = secondPtr->next;
-                    firstPtr->next = secondPtr;
-                    secondPtr->next = firstNextPtr;
+            Node<T> *newHead = head->next;
+            head->next = NULL;
+            tail->next = head;
+            head = newHead;
+            tail = tail->next;
 
-                    // now let curr1 and curr2 to point
-                    // to their immediate next pointers
-                    firstPtr = secondPtr;
-                    secondPtr = secondNextPtr;
-                }
-            }
-            else
-            {
-                // if(firstPtr->data == first->)
-
-                // if more nodes in first list
-                if (firstNextPtr->next != NULL)
-                {
-                    firstNextPtr = firstNextPtr->next;
-                    firstPtr = firstPtr->next;
-                }
-
-                // else point the last node of first list
-                // to the remaining nodes of second list
-                else
-                {
-                    firstNextPtr->next = secondPtr;
-                    return;
-                }
-            }
+            k--;
         }
     }
 
     ~SortedSet()
     {
+        Node<T> *current = head;
+        while (current != NULL)
+        {
+            Node<T> *next = current->next;
+            delete current;
+            current = next;
+        }
         head = nullptr;
         tail = nullptr;
     }
@@ -180,19 +106,28 @@ public:
 int main()
 {
     SortedSet<int> ll;
-    ll.insertElement(4);
-    ll.insertElement(2);
-    ll.insertElement(6);
-    ll.insertElement(1);
-    ll.insertElement(3);
+    ll.insertElement(40);
     ll.insertElement(10);
-    cout << "First Set:" << endl;
+    ll.insertElement(20);
+    ll.insertElement(30);
+    ll.insertElement(50);
+    ll.insertElement(40);
+    ll.insertElement(50);
+    cout << "Original Set:" << endl;
     ll.print();
     cout << "-------------------------" << endl;
-    ll.deleteElement(2);
-    cout << "First Set After Deletion:" << endl;
+
+    int k;
+    cout << "Enter a value for k:";
+    cin >> k;
+    while (!k)
+    {
+        cout << "Error! Enter a valid value for k:";
+        cin >> k;
+    }
+    ll.rotate(k);
+    cout << "Set After Rotation:" << endl;
     ll.print();
-    cout << "-------------------------" << endl;
 
     return 0;
 }
