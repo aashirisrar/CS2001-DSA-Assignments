@@ -86,8 +86,8 @@ public:
             delete current;
             current = next;
         }
-        head = nullptr;
-        tail = nullptr;
+        head = NULL;
+        tail = NULL;
     }
 };
 

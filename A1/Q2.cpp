@@ -77,15 +77,18 @@ public:
 
     void rotate(int k)
     {
-        while (k)
+        if (head != NULL && head->next != NULL)
         {
-            Node<T> *newHead = head->next;
-            head->next = NULL;
-            tail->next = head;
-            head = newHead;
-            tail = tail->next;
+            while (k)
+            {
+                Node<T> *newHead = head->next;
+                head->next = NULL;
+                tail->next = head;
+                head = newHead;
+                tail = tail->next;
 
-            k--;
+                k--;
+            }
         }
     }
 
@@ -98,8 +101,8 @@ public:
             delete current;
             current = next;
         }
-        head = nullptr;
-        tail = nullptr;
+        head = NULL;
+        tail = NULL;
     }
 };
 

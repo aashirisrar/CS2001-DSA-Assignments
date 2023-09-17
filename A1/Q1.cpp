@@ -170,8 +170,8 @@ public:
 
     ~SortedSet()
     {
-        head = nullptr;
-        tail = nullptr;
+        head = NULL;
+        tail = NULL;
     }
 };
 
