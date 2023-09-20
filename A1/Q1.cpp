@@ -1,24 +1,24 @@
 #include <iostream>
 using namespace std;
 
-template <class D>
-struct Node
-{
-    D data;
-    Node *next;
-
-    Node(D data)
-    {
-        this->data = data;
-        next = NULL;
-    }
-};
-
 template <class T>
 class SortedSet
 {
-    Node<T> *head;
-    Node<T> *tail;
+    class Node
+    {
+    public:
+        T data;
+        Node *next;
+
+        Node(T data)
+        {
+            this->data = data;
+            next = NULL;
+        }
+    };
+
+    Node *head;
+    Node *tail;
 
 public:
     SortedSet()
@@ -29,7 +29,7 @@ public:
 
     void insertElement(T const data)
     {
-        Node<T> *newElement = new Node(data);
+        Node *newElement = new Node(data);
         if (newElement == NULL)
         {
             cout << "Error! Memory not Allocated!" << endl;
@@ -37,8 +37,8 @@ public:
         }
         else
         {
-            Node<T> *current = head;
-            Node<T> *previous;
+            Node *current = head;
+            Node *previous;
 
             while (current != NULL && current->data <= data)
             {
@@ -71,10 +71,10 @@ public:
             return;
         }
 
-        Node<T> *temp = head;
+        Node *temp = head;
         if (index == 0)
         {
-            Node<T> *toDelete = temp;
+            Node *toDelete = temp;
             head = head->next;
             delete toDelete;
             return;
@@ -91,14 +91,14 @@ public:
         {
             // due to setting the tail at end we have this condition
             tail = temp;
-            Node<T> *toDelete = temp->next;
+            Node *toDelete = temp->next;
             temp->next = temp->next->next;
             delete toDelete;
             return;
         }
         else if (temp->next != NULL)
         {
-            Node<T> *toDelete = temp->next;
+            Node *toDelete = temp->next;
             temp->next = temp->next->next;
             delete toDelete;
             return;
@@ -108,7 +108,7 @@ public:
 
     void print() const
     {
-        Node<T> *temp = head;
+        Node *temp = head;
 
         while (temp != NULL)
         {
@@ -120,10 +120,10 @@ public:
 
     void unionSortedSets(SortedSet<T> const &otherSet)
     {
-        Node<T> *firstPtr = head;
-        Node<T> *secondPtr = otherSet.head;
-        Node<T> *firstNextPtr = firstPtr->next;
-        Node<T> *secondNextPtr = secondPtr->next;
+        Node *firstPtr = head;
+        Node *secondPtr = otherSet.head;
+        Node *firstNextPtr = firstPtr->next;
+        Node *secondNextPtr = secondPtr->next;
 
         while (firstPtr != NULL && secondPtr != NULL)
         {
