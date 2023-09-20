@@ -1,24 +1,23 @@
 #include <iostream>
 using namespace std;
 
-template <class D>
-struct Node
-{
-    D data;
-    Node *next;
-
-    Node(D data)
-    {
-        this->data = data;
-        next = NULL;
-    }
-};
-
 template <class T>
 class SortedSet
 {
-    Node<T> *head;
-    Node<T> *tail;
+    struct Node
+    {
+        T data;
+        Node *next;
+
+        Node(T data)
+        {
+            this->data = data;
+            next = NULL;
+        }
+    };
+
+    Node *head;
+    Node *tail;
 
 public:
     SortedSet()
@@ -29,7 +28,7 @@ public:
 
     void insertElement(T const data)
     {
-        Node<T> *newElement = new Node(data);
+        Node *newElement = new Node(data);
         if (newElement == NULL)
         {
             cout << "Error! Memory not Allocated!" << endl;
@@ -37,8 +36,8 @@ public:
         }
         else
         {
-            Node<T> *current = head;
-            Node<T> *previous;
+            Node *current = head;
+            Node *previous;
 
             while (current != NULL && current->data <= data)
             {
@@ -65,7 +64,7 @@ public:
 
     void print() const
     {
-        Node<T> *temp = head;
+        Node *temp = head;
 
         while (temp != NULL)
         {
@@ -81,7 +80,7 @@ public:
         {
             while (k)
             {
-                Node<T> *newHead = head->next;
+                Node *newHead = head->next;
                 head->next = NULL;
                 tail->next = head;
                 head = newHead;
@@ -94,10 +93,10 @@ public:
 
     ~SortedSet()
     {
-        Node<T> *current = head;
+        Node *current = head;
         while (current != NULL)
         {
-            Node<T> *next = current->next;
+            Node *next = current->next;
             delete current;
             current = next;
         }

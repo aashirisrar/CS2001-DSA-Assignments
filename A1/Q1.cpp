@@ -4,9 +4,8 @@ using namespace std;
 template <class T>
 class SortedSet
 {
-    class Node
+    struct Node
     {
-    public:
         T data;
         Node *next;
 
